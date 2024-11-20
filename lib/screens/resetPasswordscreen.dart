@@ -17,7 +17,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
   final _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  Color _borderColor = Colors.grey;
+ 
   bool _isPasswordVisible = false;
 
   @override
@@ -26,7 +26,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
 
     _focusNode.addListener(() {
       setState(() {
-        _borderColor = _focusNode.hasFocus ? Colors.blue : Colors.grey[200]!;
+        
       });
     });
   }
@@ -79,7 +79,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                          borderColor: _borderColor,
+                          
                           labelText: 'xaralaacademy@gmail.com',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -92,7 +92,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                          borderColor: _borderColor,
+                         
                           labelText: 'Code',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -105,7 +105,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _passwordController,
-                          borderColor: _borderColor,
+                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -132,7 +132,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _confirmPasswordController,
-                          borderColor: _borderColor,
+                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,

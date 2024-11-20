@@ -20,7 +20,7 @@ class _RegisterscreenState extends State<Registerscreen> {
   final _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  Color _borderColor = Colors.grey;
+  
   bool _isPasswordVisible = false;
 
   @override
@@ -29,7 +29,7 @@ class _RegisterscreenState extends State<Registerscreen> {
 
     _focusNode.addListener(() {
       setState(() {
-        _borderColor = _focusNode.hasFocus ? Colors.blue : Colors.grey[200]!;
+      
       });
     });
   }
@@ -69,9 +69,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                       color: primaryColor),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10,
-                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 10,),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -82,7 +80,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _nameController,
-                          borderColor: _borderColor,
+                         
                           labelText: 'Nom complet',
                           textInputType: TextInputType.text,
                         ),
@@ -95,7 +93,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _phoneController,
-                          borderColor: _borderColor,
+                      
                           labelText: 'Telephone',
                           textInputType: TextInputType.phone,
                         ),
@@ -108,7 +106,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                          borderColor: _borderColor,
+                     
                           labelText: 'xaralaacademy@gmail.com',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -121,7 +119,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _passwordController,
-                          borderColor: _borderColor,
+                     
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -148,7 +146,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _confirmPasswordController,
-                          borderColor: _borderColor,
+                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -191,10 +189,11 @@ class _RegisterscreenState extends State<Registerscreen> {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Loginscreen()));
+                                           Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Loginscreen()));
                             },
                             child: Text("Se connecter",
                                 style: TextStyle(

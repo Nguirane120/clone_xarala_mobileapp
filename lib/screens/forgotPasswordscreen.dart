@@ -12,7 +12,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final FocusNode _focusNode = FocusNode();
-  Color _borderColor = Colors.grey;
+ 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   @override
@@ -21,7 +21,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
     _focusNode.addListener(() {
       setState(() {
-        _borderColor = _focusNode.hasFocus ? Colors.blue : Colors.grey[200]!;
+    
       });
     });
   }
@@ -67,7 +67,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         color: primaryColor,
                       ),
                       contontroller: _emailController,
-                      borderColor: _borderColor,
+                  
                       inputTitle: 'Adresse Email',
                       labelText: 'xaralaacademy@gmail.com',
                       textInputType: TextInputType.emailAddress,
@@ -99,8 +99,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Resetpasswordscreen()));
+                                    builder: (context) => Resetpasswordscreen()));
                           },
                           child: Text("J’ai deja un code",
                               style: TextStyle(

@@ -1,3 +1,6 @@
+import 'package:clonexaralalmobileapp/const.dart';
+import 'package:clonexaralalmobileapp/screens/homescreen.dart';
+import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
 import 'package:flutter/material.dart';
 
 class Mainscreen extends StatefulWidget {
@@ -8,8 +11,51 @@ class Mainscreen extends StatefulWidget {
 }
 
 class _MainscreenState extends State<Mainscreen> {
+  int _currentIndex = 0;
+
+  final List<Widget> _pages = [
+    Homescreen(),
+    Center(child: Text('Rechercher', style: TextStyle(fontSize: 24))),
+    Center(child: Text('Profil', style: TextStyle(fontSize: 24))),
+  ];
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Loginscreen()));
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
+      body: _pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Accueil',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Rechercher',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+        ],
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Colors.grey,
+      ),
+    );
   }
 }

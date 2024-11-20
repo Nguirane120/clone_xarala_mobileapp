@@ -17,7 +17,7 @@ class _LoginscreenState extends State<Loginscreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  Color _borderColor = Colors.grey;
+  
   bool _isPasswordVisible = false;
 
   @override
@@ -26,7 +26,7 @@ class _LoginscreenState extends State<Loginscreen> {
 
     _focusNode.addListener(() {
       setState(() {
-        _borderColor = _focusNode.hasFocus ? Colors.blue : Colors.grey[200]!;
+        
       });
     });
   }
@@ -79,7 +79,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                          borderColor: _borderColor,
+                          
                           inputTitle: 'Adresse Email',
                           labelText: 'xaralaacademy@gmail.com',
                           textInputType: TextInputType.emailAddress,
@@ -93,7 +93,7 @@ class _LoginscreenState extends State<Loginscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _passwordController,
-                          borderColor: _borderColor,
+                          
                           inputTitle: 'Mot de passe',
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
