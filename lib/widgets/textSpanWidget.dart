@@ -12,9 +12,7 @@ class TextSpanWidget extends StatelessWidget {
       text: TextSpan(
         text: normalText,
         style: TextStyle(
-          fontSize: 18,
-          color: Colors.black,
-        ),
+            fontSize: 18, color: Colors.black, fontWeight: FontWeight.bold),
         children: [
           TextSpan(
             text: wordToStyle,

@@ -56,6 +56,9 @@ class Homescreen extends StatelessWidget {
                   normalText: 'Nos catégories ', wordToStyle: 'Phares'),
             ),
             HorizontalScrollCardsWithIcons(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
             Container(
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.05),

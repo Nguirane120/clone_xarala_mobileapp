@@ -22,12 +22,14 @@ class HorizontalScrollCardsWithIcons extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Card(
+                color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
                 elevation: 5,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.5, // Largeur des cartes
+                  width: MediaQuery.of(context).size.width *
+                      0.5, // Largeur des cartes
                   padding: EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

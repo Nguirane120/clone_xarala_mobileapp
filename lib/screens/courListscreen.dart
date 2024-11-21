@@ -1,96 +1,136 @@
-import 'package:clonexaralalmobileapp/data/models/course.dart';
+import 'package:clonexaralalmobileapp/bloc/course_bloc.dart';
+import 'package:clonexaralalmobileapp/bloc/course_event.dart';
+import 'package:clonexaralalmobileapp/bloc/course_state.dart';
+import 'package:clonexaralalmobileapp/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CourseListScreen extends StatelessWidget {
-  final List<Course> courses = [
-    Course(
-      title: 'Flutter Basics',
-      description: 'Learn the basics of Flutter for mobile development.',
-      instructor: 'John Doe',
-      youtubeLink: 'https://www.youtube.com/watch?v=flutter1',
-    ),
-    Course(
-      title: 'Advanced Dart Programming',
-      description:
-          'Deep dive into Dart programming for advanced Flutter development.',
-      instructor: 'Jane Smith',
-      youtubeLink: 'https://www.youtube.com/watch?v=dart1',
-    ),
-    Course(
-      title: 'UI/UX Design Principles',
-      description: 'Master the principles of UI/UX design for mobile apps.',
-      instructor: 'Michael Lee',
-      youtubeLink: 'https://www.youtube.com/watch?v=ux1',
-    ),
-    Course(
-      title: 'Intro to Firebase',
-      description: 'Learn how to integrate Firebase into your Flutter apps.',
-      instructor: 'Sarah Connor',
-      youtubeLink: 'https://www.youtube.com/watch?v=firebase1',
-    ),
-    Course(
-      title: 'Networking in Flutter',
-      description:
-          'Learn how to make network calls and handle APIs in Flutter.',
-      instructor: 'Alex Mercer',
-      youtubeLink: 'https://www.youtube.com/watch?v=networking1',
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(8.0),
-      child: SizedBox(
-        height: 300, // Hauteur fixe pour le défilement horizontal
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: courses.length,
-          itemBuilder: (context, index) {
-            final course = courses[index];
-            return Container(
-              width: 250, // Largeur des cartes de cours
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
-              child: Card(
-                elevation: 5,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: Text(
-                        course.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+    return BlocProvider(
+      create: (context) => CourseBloc()..add(LoadCourses()),
+      child: BlocBuilder<CourseBloc, CourseState>(
+        builder: (context, state) {
+          if (state is CourseLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CourseLoaded) {
+            final courses = state.courses;
+
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.4,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: courses.length,
+                  itemBuilder: (context, index) {
+                    final data = courses[index];
+                    return Container(
+                      color: secondaryColor,
+                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Card(
+                        color: Colors.white,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                      top: Radius.circular(10)),
+                                  child: SvgPicture.asset(
+                                    data.imagePath,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.5,
+                                    width: double.infinity,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.03,
+                              ),
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundColor: primaryColor,
+                                    foregroundColor: Colors.white,
+                                    child: Text(
+                                      '${data.instructor[0].toUpperCase()}${data.instructor.split(' ').length > 1 ? data.instructor.split(' ')[1][0].toUpperCase() : ''}',
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.01,
+                                  ),
+                                  Text(data.instructor),
+                                ],
+                              ),
+                              ListTile(
+                                title: Text(
+                                  data.title,
+                                ),
+                                subtitle: Text(data.description),
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                child: Divider(),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.mic,
+                                          color: Colors.black38,
+                                        ),
+                                        Text(data.language,
+                                            style: TextStyle(
+                                              color: Colors.black38,
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    data.coursTatuts,
+                                    style: TextStyle(
+                                        color: Color(
+                                          0xff19B783,
+                                        ),
+                                        fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      subtitle: Text(course.instructor),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        course.description,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: IconButton(
-                        icon: Icon(Icons.play_circle_fill),
-                        onPressed: () {
-                          // Action lorsque l'utilisateur appuie pour regarder la vidéo
-                
-                        },
-                      ),
-                    )
-                  ],
+                    );
+                  },
                 ),
               ),
             );
-          },
-        ),
+          } else if (state is CourseError) {
+            return Center(child: Text(state.message));
+          }
+          return const Center(child: Text('Aucune donnée disponible.'));
+        },
       ),
     );
   }
