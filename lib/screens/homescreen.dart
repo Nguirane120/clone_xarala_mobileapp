@@ -2,15 +2,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clonexaralalmobileapp/screens/courListscreen.dart';
 import 'package:clonexaralalmobileapp/widgets/horizontalCardCategory.dart';
 import 'package:clonexaralalmobileapp/widgets/textSpanWidget.dart';
+import 'package:clonexaralalmobileapp/widgets/textTitle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Homescreen extends StatelessWidget {
   Homescreen({super.key});
   final List<String> imageUrls = [
-    'https://via.placeholder.com/600x300.png?text=Image+1',
-    'https://via.placeholder.com/600x300.png?text=Image+2',
-    'https://via.placeholder.com/600x300.png?text=Image+3',
-    'https://via.placeholder.com/600x300.png?text=Image+4',
+    'images/mobile_development.svg',
+    'images/dev.svg',
+    'images/typing.svg',
+    'images/react.svg',
+    'images/git.svg'
   ];
 
   @override
@@ -34,10 +37,8 @@ class Homescreen extends StatelessWidget {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       margin: EdgeInsets.symmetric(horizontal: 3.0),
-                      decoration: BoxDecoration(
-                        color: Colors.amber,
-                      ),
-                      child: Image.network(
+                      decoration: BoxDecoration(),
+                      child: SvgPicture.asset(
                         url,
                         fit: BoxFit.cover,
                       ),
@@ -65,6 +66,11 @@ class Homescreen extends StatelessWidget {
               child: TextSpanWidget(
                   normalText: 'Selection de  ', wordToStyle: 'Cours'),
             ),
+            CourseListScreen(),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.03,
+            ),
+            Texttitle(text: "Developpement web et mobile"),
             CourseListScreen(),
           ],
         ),

@@ -1,8 +1,15 @@
-import 'package:equatable/equatable.dart';
+import 'package:clonexaralalmobileapp/data/models/course.dart';
 
-abstract class CourseEvent extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
+abstract class CourseEvent {}
 
 class LoadCourses extends CourseEvent {}
+
+class AddToSavedCourses extends CourseEvent {
+  final Course course;
+  AddToSavedCourses(this.course);
+}
+
+class RemoveFromSavedCourses extends CourseEvent {
+  final Course course;
+  RemoveFromSavedCourses(this.course);
+}

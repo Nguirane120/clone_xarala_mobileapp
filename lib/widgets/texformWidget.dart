@@ -4,7 +4,6 @@ class TextformWidget extends StatefulWidget {
   TextformWidget(
       {super.key,
       required this.contontroller,
-     
       required this.labelText,
       this.inputTitle,
       this.suffixIcon,
@@ -24,9 +23,8 @@ class TextformWidget extends StatefulWidget {
 }
 
 class _TextformWidgetState extends State<TextformWidget> {
-
-   final FocusNode _focusNode = FocusNode();
-     Color _borderColor = Colors.grey;
+  final FocusNode _focusNode = FocusNode();
+  Color _borderColor = Colors.grey;
   @override
   void initState() {
     super.initState();

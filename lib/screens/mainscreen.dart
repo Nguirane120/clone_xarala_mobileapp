@@ -1,6 +1,7 @@
 import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/screens/homescreen.dart';
 import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
+import 'package:clonexaralalmobileapp/screens/savedcourscren.dart';
 import 'package:flutter/material.dart';
 
 class Mainscreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _MainscreenState extends State<Mainscreen> {
 
   final List<Widget> _pages = [
     Homescreen(),
-    Center(child: Text('Rechercher', style: TextStyle(fontSize: 24))),
+    SavedCoursesScreen(),
     Center(child: Text('Profil', style: TextStyle(fontSize: 24))),
   ];
   @override
@@ -45,8 +46,8 @@ class _MainscreenState extends State<Mainscreen> {
             label: 'Accueil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Rechercher',
+            icon: Icon(Icons.library_add),
+            label: 'Mes Cours',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

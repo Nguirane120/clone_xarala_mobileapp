@@ -1,9 +1,19 @@
+import 'package:clonexaralalmobileapp/bloc/course_bloc.dart';
+import 'package:clonexaralalmobileapp/bloc/course_event.dart';
 import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getTemporaryDirectory(),
+  );
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -29,9 +39,10 @@ class MyApp extends StatelessWidget {
                   textStyle: TextStyle(
                     fontWeight: FontWeight.bold,
                   ))),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: Mainscreen());
+        home: BlocProvider(
+            create: (context) => CourseBloc()..add(LoadCourses()),
+            child: Mainscreen()));
   }
 }
