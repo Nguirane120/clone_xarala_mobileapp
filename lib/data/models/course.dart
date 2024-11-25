@@ -1,5 +1,34 @@
 import 'package:equatable/equatable.dart';
 
+class Chapter {
+  final int chapterNumber;
+  final String title;
+  final String description;
+
+  Chapter({
+    required this.title,
+    required this.description,
+    required this.chapterNumber
+  });
+
+  // Convert Chapter to Map for serialization
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'description': description,
+    };
+  }
+
+  // Create a Chapter from Map
+  factory Chapter.fromJson(Map<String, dynamic> json) {
+    return Chapter(
+      title: json['title'] as String,
+      description: json['description'] as String,
+      chapterNumber: json['chapterNumber']
+    );
+  }
+}
+
 class Course extends Equatable {
   final String title;
   final String description;
@@ -8,6 +37,7 @@ class Course extends Equatable {
   final String imagePath;
   final String language;
   final String coursTatuts;
+  final List<Chapter> chapters; // Liste des chapitres
 
   const Course({
     required this.title,
@@ -17,9 +47,10 @@ class Course extends Equatable {
     required this.imagePath,
     required this.language,
     required this.coursTatuts,
+    required this.chapters,
   });
 
-  // Convertir Course en Map pour la sérialisation
+  // Convert Course to Map for serialization
   Map<String, dynamic> toJson() {
     return {
       'title': title,
@@ -29,10 +60,13 @@ class Course extends Equatable {
       'imagePath': imagePath,
       'language': language,
       'coursTatuts': coursTatuts,
+      'chapters': chapters
+          .map((chapter) => chapter.toJson())
+          .toList(), // Serialize chapters
     };
   }
 
-  // Créer une instance de Course à partir d'une Map
+  // Create a Course from Map
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
       title: json['title'] as String,
@@ -42,10 +76,14 @@ class Course extends Equatable {
       imagePath: json['imagePath'] as String,
       language: json['language'] as String,
       coursTatuts: json['coursTatuts'] as String,
+      chapters: (json['chapters'] as List)
+          .map((chapterJson) =>
+              Chapter.fromJson(chapterJson as Map<String, dynamic>))
+          .toList(), // Deserialize chapters
     );
   }
 
-  // Copier un Course avec des modifications
+  // Copy with method to update fields
   Course copyWith({
     String? title,
     String? description,
@@ -54,6 +92,7 @@ class Course extends Equatable {
     String? imagePath,
     String? language,
     String? coursTatuts,
+    List<Chapter>? chapters,
   }) {
     return Course(
       title: title ?? this.title,
@@ -63,6 +102,7 @@ class Course extends Equatable {
       imagePath: imagePath ?? this.imagePath,
       language: language ?? this.language,
       coursTatuts: coursTatuts ?? this.coursTatuts,
+      chapters: chapters ?? this.chapters,
     );
   }
 
@@ -75,5 +115,6 @@ class Course extends Equatable {
         imagePath,
         language,
         coursTatuts,
+        chapters, // Include chapters in comparison for Equatable
       ];
 }

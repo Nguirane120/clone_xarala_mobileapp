@@ -22,7 +22,8 @@ class HorizontalScrollCardsWithIcons extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Card(
-                color: Colors.white,
+               
+                // color: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
