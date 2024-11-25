@@ -1,6 +1,7 @@
 import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/screens/homescreen.dart';
 import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
+import 'package:clonexaralalmobileapp/screens/profilescren.dart';
 import 'package:clonexaralalmobileapp/screens/savedcourscren.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class _MainscreenState extends State<Mainscreen> {
   final List<Widget> _pages = [
     Homescreen(),
     SavedCoursesScreen(),
-    Center(child: Text('Profil', style: TextStyle(fontSize: 24))),
+    Profilescren()
   ];
   @override
   Widget build(BuildContext context) {

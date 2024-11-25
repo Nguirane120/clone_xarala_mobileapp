@@ -1,4 +1,3 @@
-import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/data/models/course.dart';
 import 'package:flutter/material.dart';
 
