@@ -1,10 +1,13 @@
 import 'package:clonexaralalmobileapp/bloc/course_bloc.dart';
 import 'package:clonexaralalmobileapp/bloc/course_event.dart';
 import 'package:clonexaralalmobileapp/const.dart';
+import 'package:clonexaralalmobileapp/repositry/auth.dart';
 import 'package:clonexaralalmobileapp/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'bloc/bloc/auth_bloc.dart';
+import 'firebase_options.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -12,6 +15,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: await getTemporaryDirectory(),
+  );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MyApp());
 }
@@ -41,8 +48,18 @@ class MyApp extends StatelessWidget {
                   ))),
           useMaterial3: true,
         ),
-        home: BlocProvider(
-            create: (context) => CourseBloc()..add(LoadCourses()),
-            child: Mainscreen()));
+        home: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => AuthenticationBloc(
+                authRepository: context.read<AuthenticationRepository>(),
+              ),
+            ),
+            BlocProvider(
+              create: (context) => CourseBloc()..add(LoadCourses()),
+            ),
+          ],
+          child: Mainscreen(),
+        ));
   }
 }
