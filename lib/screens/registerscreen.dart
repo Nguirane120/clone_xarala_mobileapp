@@ -1,7 +1,9 @@
 import 'package:clonexaralalmobileapp/const.dart';
-import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
+import 'package:clonexaralalmobileapp/screens/mainscreen.dart';
 import 'package:clonexaralalmobileapp/widgets/texformWidget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Registerscreen extends StatefulWidget {
   const Registerscreen({super.key});
@@ -12,6 +14,7 @@ class Registerscreen extends StatefulWidget {
 
 class _RegisterscreenState extends State<Registerscreen> {
   final FocusNode _focusNode = FocusNode();
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
@@ -20,17 +23,90 @@ class _RegisterscreenState extends State<Registerscreen> {
   final _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
-  
+  final FirebaseAuth auth = FirebaseAuth.instance;
   bool _isPasswordVisible = false;
+  Future<void> signUpWithDetails({
+    required String name,
+    required String phone,
+    required String email,
+    required String password,
+  }) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      String userId = userCredential.user!.uid;
+
+      await FirebaseFirestore.instance.collection('users').doc(userId).set({
+        'name': name,
+        'phone': phone,
+        'email': email,
+        'createdAt': FieldValue.serverTimestamp(),
+      });
+
+      print('Utilisateur inscrit avec succès');
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Mainscreen()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      if (e.code == 'email-already-in-use') {
+        errorMessage = 'Cet email est déjà utilisé.';
+      } else {
+        errorMessage = 'Erreur: ${e.message}';
+      }
+      _showErrorDialog(errorMessage);
+    } catch (e) {
+      _showErrorDialog('Une erreur est survenue. Veuillez réessayer.');
+      print('Erreur lors de l\'inscription: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Erreur'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _signUp() {
+    if (_formKey.currentState!.validate()) {
+      signUpWithDetails(
+        name: _nameController.text.trim(),
+        phone: _phoneController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+    }
+  }
 
   @override
   void initState() {
     super.initState();
 
     _focusNode.addListener(() {
-      setState(() {
-      
-      });
+      setState(() {});
     });
   }
 
@@ -69,7 +145,9 @@ class _RegisterscreenState extends State<Registerscreen> {
                       color: primaryColor),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10,),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
                   child: Form(
                     key: _formKey,
                     child: Column(
@@ -80,7 +158,6 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _nameController,
-                         
                           labelText: 'Nom complet',
                           textInputType: TextInputType.text,
                         ),
@@ -93,7 +170,6 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _phoneController,
-                      
                           labelText: 'Telephone',
                           textInputType: TextInputType.phone,
                         ),
@@ -106,7 +182,6 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                     
                           labelText: 'xaralaacademy@gmail.com',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -119,7 +194,6 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _passwordController,
-                     
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -146,7 +220,6 @@ class _RegisterscreenState extends State<Registerscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _confirmPasswordController,
-                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -168,19 +241,17 @@ class _RegisterscreenState extends State<Registerscreen> {
                           height: MediaQuery.of(context).size.height * 0.03,
                         ),
                         ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState?.validate() ?? false) {
-                              print('Form is valid');
-                              print(_emailController.text);
-                              print(_passwordController.text);
-                            } else {
-                              print('Form is not valid');
-                            }
-                          },
-                          child: Text(
-                            'S\'inscrire',
-                            style: TextStyle(fontSize: 20),
-                          ),
+                          onPressed: isLoading ? null : _signUp,
+                          child: isLoading
+                              ? SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.0,
+                                  ),
+                                )
+                              : Text('S\'inscrire'),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.01,
@@ -188,13 +259,7 @@ class _RegisterscreenState extends State<Registerscreen> {
                         Container(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: () {
-                                           Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Loginscreen()));
-                            },
+                            onPressed: () {},
                             child: Text("Se connecter",
                                 style: TextStyle(
                                     color: primaryColor,

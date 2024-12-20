@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ProfileContainer extends StatelessWidget {
-  ProfileContainer({super.key, required this.profileText, this.color});
+  ProfileContainer(
+      {super.key, required this.profileText, this.color, this.gotoAnotherPage});
   final String profileText;
   final Color? color;
-
+  final VoidCallback? gotoAnotherPage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,11 +17,13 @@ class ProfileContainer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            profileText,
-            style: TextStyle(color: color, fontWeight: FontWeight.bold),
+          TextButton(
+            child: Text(
+              profileText,
+              style: TextStyle(color: color, fontWeight: FontWeight.bold),
+            ),
+            onPressed: gotoAnotherPage,
           ),
-          Icon(Icons.arrow_forward, color: color,),
         ],
       ),
     );

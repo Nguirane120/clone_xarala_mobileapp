@@ -1,13 +1,23 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clonexaralalmobileapp/screens/courListscreen.dart';
+import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
 import 'package:clonexaralalmobileapp/widgets/horizontalCardCategory.dart';
 import 'package:clonexaralalmobileapp/widgets/textSpanWidget.dart';
 import 'package:clonexaralalmobileapp/widgets/textTitle.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends StatefulWidget {
   Homescreen({super.key});
+
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+  final auth = FirebaseAuth.instance;
+
   final List<String> imageUrls = [
     'images/mobile_development.svg',
     'images/dev.svg',
@@ -16,9 +26,78 @@ class Homescreen extends StatelessWidget {
     'images/git.svg'
   ];
 
+  void logout() async {
+    bool isLoggingOut = false;
+
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Déconnexion'),
+              content: Text('Voulez-vous vraiment vous déconnecter ?'),
+              actions: [
+                if (isLoggingOut)
+                  Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.black,
+                    ),
+                  )
+                else ...[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(false); // Annuler la déconnexion
+                    },
+                    child: Text('Annuler'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      setState(() {
+                        isLoggingOut = true; // Activer le loader
+                      });
+                      Navigator.of(context)
+                          .pop(true); // Confirmer la déconnexion
+                    },
+                    child: Text('Déconnecter'),
+                  ),
+                ],
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (shouldLogout == true) {
+      try {
+        await auth.signOut();
+        print('Utilisateur déconnecté');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
+        ); // Naviguer vers l'écran de connexion
+      } catch (e) {
+        print('Erreur lors de la déconnexion: $e');
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {
+                logout();
+              },
+              icon: Icon(Icons.logout))
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,12 +1,58 @@
 import 'package:clonexaralalmobileapp/const.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'profileContainer.dart';
 
-class PriofileInfo extends StatelessWidget {
+class PriofileInfo extends StatefulWidget {
   const PriofileInfo({
     super.key,
   });
+
+  @override
+  State<PriofileInfo> createState() => _PriofileInfoState();
+}
+
+class _PriofileInfoState extends State<PriofileInfo> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  bool isLoading = true;
+  Map<String, dynamic>? userData;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    try {
+      final User? currentUser = _auth.currentUser;
+      if (currentUser != null) {
+        DocumentSnapshot userDoc =
+            await _firestore.collection('users').doc(currentUser.uid).get();
+
+        if (userDoc.exists && userDoc.data() != null) {
+          setState(() {
+            userData = userDoc.data() as Map<String, dynamic>;
+            isLoading = false;
+          });
+        } else {
+          print("Document utilisateur introuvable ou données non valides.");
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
+    } catch (e) {
+      print('Erreur lors de la récupération des données utilisateur : $e');
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,52 +74,39 @@ class PriofileInfo extends StatelessWidget {
                     margin: EdgeInsets.all(5),
                     child: Column(
                       children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage('images/pp.jpeg'),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         ProfileContainer(
-                          profileText: "Mon Profile",
+                          profileText: userData != null
+                              ? userData!['name'] ?? "Nom non défini"
+                              : "Chargement...",
+                          gotoAnotherPage: () {},
+                          color: Colors.black,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         ProfileContainer(
-                          profileText: "Mdifier mon mot de passe",
+                          profileText: userData != null
+                              ? userData!['phone'] ?? "Nom non défini"
+                              : "Chargement...",
+                          gotoAnotherPage: () {},
+                          color: Colors.black,
                         ),
                         SizedBox(
                           height: 15,
                         ),
                         ProfileContainer(
-                          profileText: "Favoris",
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        ProfileContainer(
-                          profileText: "A propos",
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        ProfileContainer(
-                          profileText: "Politique de confidentialite",
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        ProfileContainer(
-                          profileText: "FAQ",
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        ProfileContainer(
-                          profileText: "Deconnexion",
-                          color: primaryColor,
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        ProfileContainer(
-                          profileText: "Supprimer mon compote",
-                          color: primaryColor,
+                          profileText: userData != null
+                              ? userData!['email'] ?? "Nom non défini"
+                              : "Chargement...",
+                          gotoAnotherPage: () {},
+                          color: Colors.black,
                         ),
                       ],
                     ),

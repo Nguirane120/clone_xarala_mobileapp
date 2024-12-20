@@ -3,6 +3,7 @@ import 'package:clonexaralalmobileapp/screens/homescreen.dart';
 import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
 import 'package:clonexaralalmobileapp/screens/profilescren.dart';
 import 'package:clonexaralalmobileapp/screens/savedcourscren.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Mainscreen extends StatefulWidget {
@@ -14,25 +15,38 @@ class Mainscreen extends StatefulWidget {
 
 class _MainscreenState extends State<Mainscreen> {
   int _currentIndex = 0;
+  final auth = FirebaseAuth.instance;
+  late String? loggedInUser;
+  bool isLogged = false;
+  @override
+  void initState() {
+    super.initState();
+    getCurrentUser();
+  }
+
+  void getCurrentUser() async {
+    try {
+      final User? user = auth.currentUser;
+      if (user != null) {
+        loggedInUser = user.email;
+        setState(() {
+          isLogged = true;
+        });
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
 
   final List<Widget> _pages = [
     Homescreen(),
     SavedCoursesScreen(),
     Profilescren()
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => Loginscreen()));
-              },
-              icon: Icon(Icons.logout))
-        ],
-      ),
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

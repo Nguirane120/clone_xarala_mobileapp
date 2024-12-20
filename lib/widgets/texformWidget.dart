@@ -7,15 +7,15 @@ class TextformWidget extends StatefulWidget {
       required this.labelText,
       this.inputTitle,
       this.suffixIcon,
-      required this.prefixIcon,
-      required this.textInputType,
+      this.prefixIcon,
+      this.textInputType,
       this.obscureText});
   final TextEditingController contontroller;
   final String labelText;
   final String? inputTitle;
   final Widget? suffixIcon;
-  final Widget prefixIcon;
-  final TextInputType textInputType;
+  final Widget? prefixIcon;
+  final TextInputType? textInputType;
   final bool? obscureText;
 
   @override

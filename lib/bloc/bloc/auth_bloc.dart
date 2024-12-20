@@ -3,43 +3,45 @@ import 'package:clonexaralalmobileapp/bloc/bloc/auth_state.dart';
 import 'package:clonexaralalmobileapp/repositry/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AuthenticationBloc 
+class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   final AuthenticationRepository _authRepository;
 
-  AuthenticationBloc({required AuthenticationRepository authRepository})
-      : _authRepository = authRepository,
-        super(const AuthenticationState.unknown()) {
-    on<AuthenticationStatusChanged>(_onStatusChanged);
-    on<AuthenticationLogoutRequested>(_onLogoutRequested);
+  AuthenticationBloc(this._authRepository) : super(AuthenticationInitial()) {
+    on<AuthenticationSignUpRequested>((event, emit) async {
+      emit(AuthenticationLoading());
+      try {
+        await _authRepository.signUp(
+            email: event.email, password: event.password);
+        emit(AuthenticationAuthenticated(_authRepository.currentUser!));
+      } catch (e) {
+        emit(AuthenticationError(e.toString()));
+      }
+    });
 
-    _checkAuthStatus();
-  }
+    on<AuthenticationSignInRequested>((event, emit) async {
+      emit(AuthenticationLoading());
+      try {
+        await _authRepository.signIn(
+            email: event.email, password: event.password);
+        emit(AuthenticationAuthenticated(_authRepository.currentUser!));
+      } catch (e) {
+        emit(AuthenticationError(e.toString()));
+      }
+    });
 
-  void _checkAuthStatus() {
-    if (_authRepository.isAuthenticated) {
-      add(AuthenticationStatusChanged(
-        AuthenticationState.authenticated(_authRepository.currentUser!),
-      ));
-    } else {
-      add(AuthenticationStatusChanged(
-        const AuthenticationState.unauthenticated(),
-      ));
-    }
-  }
+    on<AuthenticationSignOutRequested>((event, emit) async {
+      emit(AuthenticationLoading());
+      await _authRepository.signOut();
+      emit(AuthenticationUnauthenticated());
+    });
 
-  void _onStatusChanged(
-    AuthenticationStatusChanged event, 
-    Emitter<AuthenticationState> emit,
-  ) {
-    emit(event.status);
-  }
-
-  void _onLogoutRequested(
-    AuthenticationLogoutRequested event, 
-    Emitter<AuthenticationState> emit,
-  ) async {
-    await _authRepository.signOut();
-    emit(const AuthenticationState.unauthenticated());
+    on<AuthenticationCheckStatusRequested>((event, emit) {
+      if (_authRepository.isAuthenticated) {
+        emit(AuthenticationAuthenticated(_authRepository.currentUser!));
+      } else {
+        emit(AuthenticationUnauthenticated());
+      }
+    });
   }
 }

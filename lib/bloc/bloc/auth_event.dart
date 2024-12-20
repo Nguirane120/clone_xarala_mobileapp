@@ -1,11 +1,19 @@
-import 'package:clonexaralalmobileapp/bloc/bloc/auth_state.dart';
-
 abstract class AuthenticationEvent {}
 
-class AuthenticationStatusChanged extends AuthenticationEvent {
-  final AuthenticationState status;
+class AuthenticationSignUpRequested extends AuthenticationEvent {
+  final String email;
+  final String password;
 
-  AuthenticationStatusChanged(this.status);
+  AuthenticationSignUpRequested({required this.email, required this.password});
 }
 
-class AuthenticationLogoutRequested extends AuthenticationEvent {}
+class AuthenticationSignInRequested extends AuthenticationEvent {
+  final String email;
+  final String password;
+
+  AuthenticationSignInRequested({required this.email, required this.password});
+}
+
+class AuthenticationSignOutRequested extends AuthenticationEvent {}
+
+class AuthenticationCheckStatusRequested extends AuthenticationEvent {}
