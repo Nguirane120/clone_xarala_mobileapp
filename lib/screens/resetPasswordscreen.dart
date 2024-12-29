@@ -17,7 +17,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
   final _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
- 
+
   bool _isPasswordVisible = false;
 
   @override
@@ -25,9 +25,7 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
     super.initState();
 
     _focusNode.addListener(() {
-      setState(() {
-        
-      });
+      setState(() {});
     });
   }
 
@@ -79,7 +77,6 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                          
                           labelText: 'xaralaacademy@gmail.com',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -92,7 +89,6 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _emailController,
-                         
                           labelText: 'Code',
                           textInputType: TextInputType.emailAddress,
                         ),
@@ -105,7 +101,6 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _passwordController,
-                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,
@@ -132,7 +127,6 @@ class _ResetpasswordscreenState extends State<Resetpasswordscreen> {
                             color: primaryColor,
                           ),
                           contontroller: _confirmPasswordController,
-                          
                           labelText: '*********',
                           obscureText: !_isPasswordVisible,
                           textInputType: TextInputType.text,

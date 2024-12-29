@@ -1,4 +1,5 @@
 import 'package:clonexaralalmobileapp/const.dart';
+import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
 import 'package:clonexaralalmobileapp/screens/mainscreen.dart';
 import 'package:clonexaralalmobileapp/widgets/texformWidget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -259,7 +260,14 @@ class _RegisterscreenState extends State<Registerscreen> {
                         Container(
                           alignment: Alignment.centerRight,
                           child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
                             child: Text("Se connecter",
                                 style: TextStyle(
                                     color: primaryColor,

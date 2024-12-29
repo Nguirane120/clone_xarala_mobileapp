@@ -1,9 +1,11 @@
 import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/screens/change_pwd_screen.dart';
 import 'package:clonexaralalmobileapp/screens/edit_profile_screen.dart';
+import 'package:clonexaralalmobileapp/screens/loginscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../widgets/profileInfo.dart';
 
 class Profilescren extends StatefulWidget {
@@ -59,6 +61,73 @@ class _ProfilescrenState extends State<Profilescren> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Future<void> launch(String url, bool isNewTab) async {
+    await launchUrl(
+      Uri.parse(url),
+      webOnlyWindowName: isNewTab ? '_blank' : '_self',
+    );
+  }
+
+  void logout() async {
+    bool isLoggingOut = false;
+
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('Déconnexion'),
+              content: Text('Voulez-vous vraiment vous déconnecter ?'),
+              actions: [
+                if (isLoggingOut)
+                  Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.black,
+                    ),
+                  )
+                else ...[
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .pop(false); // Annuler la déconnexion
+                    },
+                    child: Text('Annuler'),
+                  ),
+                  TextButton(
+                    onPressed: () async {
+                      setState(() {
+                        isLoggingOut = true; // Activer le loader
+                      });
+                      Navigator.of(context)
+                          .pop(true); // Confirmer la déconnexion
+                    },
+                    child: Text('Déconnecter'),
+                  ),
+                ],
+              ],
+            );
+          },
+        );
+      },
+    );
+
+    if (shouldLogout == true) {
+      try {
+        await _auth.signOut();
+        print('Utilisateur déconnecté');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginScreen(),
+          ),
+        ); // Naviguer vers l'écran de connexion
+      } catch (e) {
+        print('Erreur lors de la déconnexion: $e');
+      }
+    }
   }
 
   @override
@@ -164,30 +233,32 @@ class _ProfilescrenState extends State<Profilescren> {
                         builder: (context) => ChangePasswordScreen()));
               },
             ),
-            DrawerList(
-              context,
-              text: "À propos",
-              icon: Icons.info,
-              iconColor: Colors.teal,
-            ),
-            DrawerList(
-              context,
-              text: "Politique de confidentialité",
-              icon: Icons.privacy_tip,
-              iconColor: Colors.purple,
-            ),
-            DrawerList(
-              context,
-              text: "FAQ",
-              icon: Icons.help_center_outlined,
-              iconColor: Colors.green,
-            ),
-            DrawerList(
-              context,
-              text: "Déconnexion",
-              icon: Icons.logout,
-              iconColor: Colors.red,
-            ),
+            DrawerList(context,
+                text: "À propos",
+                icon: Icons.info,
+                iconColor: Colors.teal, onTap: () {
+              launchUrl(Uri.parse('https://www.xarala.co/about/'),
+                  webOnlyWindowName: '_blank');
+            }),
+            DrawerList(context,
+                text: "Politique de confidentialité",
+                icon: Icons.privacy_tip,
+                iconColor: Colors.purple, onTap: () {
+              launchUrl(Uri.parse('https://www.xarala.co/privacy-policy/'),
+                  webOnlyWindowName: '_blank');
+            }),
+            DrawerList(context,
+                text: "FAQ",
+                icon: Icons.help_center_outlined,
+                iconColor: Colors.green, onTap: () {
+              launchUrl(Uri.parse('https://www.xarala.co/faq/'),
+                  webOnlyWindowName: '_blank');
+            }),
+            DrawerList(context,
+                text: "Déconnexion",
+                icon: Icons.logout,
+                iconColor: Colors.red,
+                onTap: logout),
           ],
         ),
       ),
@@ -224,6 +295,8 @@ class _ProfilescrenState extends State<Profilescren> {
       selected: _selectedIndex == 0,
       onTap: () {
         onTap!();
+        //close the drawer
+        Navigator.pop(context);
       },
     );
   }

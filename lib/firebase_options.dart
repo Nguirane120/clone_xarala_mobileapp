@@ -41,46 +41,49 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDPej9UyuqiY6NSw3E9mDc4BE4_dPIxXDY',
-    appId: '1:614279437607:web:63be0bb964d388b46d9d02',
-    messagingSenderId: '614279437607',
-    projectId: 'xarala-a20ec',
-    authDomain: 'xarala-a20ec.firebaseapp.com',
-    storageBucket: 'xarala-a20ec.firebasestorage.app',
+    apiKey: 'AIzaSyDKMLaaInHI8bpHRGspa8iaRBpWAiiKMq8',
+    appId: '1:265790904991:web:20f380f664b47304f3a0aa',
+    messagingSenderId: '265790904991',
+    projectId: 'xaral-app',
+    authDomain: 'xaral-app.firebaseapp.com',
+    storageBucket: 'xaral-app.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD8AVG2L6auCmFXF8Iw3YJumj67PPouyyU',
-    appId: '1:614279437607:android:0fcfc0ec7b7c9ba56d9d02',
-    messagingSenderId: '614279437607',
-    projectId: 'xarala-a20ec',
-    storageBucket: 'xarala-a20ec.firebasestorage.app',
+    apiKey: 'AIzaSyAgOfMfTcEotKp3q-80r32-uwjivZ2e49Y',
+    appId: '1:265790904991:android:9e47764814e18c1ff3a0aa',
+    messagingSenderId: '265790904991',
+    projectId: 'xaral-app',
+    storageBucket: 'xaral-app.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDQXBbT44LdUKYrClWjV62qlypaqhnPuZA',
-    appId: '1:614279437607:ios:f7879ddab51d60c16d9d02',
-    messagingSenderId: '614279437607',
-    projectId: 'xarala-a20ec',
-    storageBucket: 'xarala-a20ec.firebasestorage.app',
+    apiKey: 'AIzaSyCHRdfZO7dyTPlD0NN_hWcIY_NB1vvkwg8',
+    appId: '1:265790904991:ios:97c5d4e20e55d528f3a0aa',
+    messagingSenderId: '265790904991',
+    projectId: 'xaral-app',
+    storageBucket: 'xaral-app.firebasestorage.app',
+    iosClientId: '265790904991-dtum995rtu60de2pmvbcetn9966i1grc.apps.googleusercontent.com',
     iosBundleId: 'com.example.clonexaralalmobileapp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDQXBbT44LdUKYrClWjV62qlypaqhnPuZA',
-    appId: '1:614279437607:ios:f7879ddab51d60c16d9d02',
-    messagingSenderId: '614279437607',
-    projectId: 'xarala-a20ec',
-    storageBucket: 'xarala-a20ec.firebasestorage.app',
+    apiKey: 'AIzaSyCHRdfZO7dyTPlD0NN_hWcIY_NB1vvkwg8',
+    appId: '1:265790904991:ios:97c5d4e20e55d528f3a0aa',
+    messagingSenderId: '265790904991',
+    projectId: 'xaral-app',
+    storageBucket: 'xaral-app.firebasestorage.app',
+    iosClientId: '265790904991-dtum995rtu60de2pmvbcetn9966i1grc.apps.googleusercontent.com',
     iosBundleId: 'com.example.clonexaralalmobileapp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDPej9UyuqiY6NSw3E9mDc4BE4_dPIxXDY',
-    appId: '1:614279437607:web:35613d599b74e86d6d9d02',
-    messagingSenderId: '614279437607',
-    projectId: 'xarala-a20ec',
-    authDomain: 'xarala-a20ec.firebaseapp.com',
-    storageBucket: 'xarala-a20ec.firebasestorage.app',
+    apiKey: 'AIzaSyDKMLaaInHI8bpHRGspa8iaRBpWAiiKMq8',
+    appId: '1:265790904991:web:2592649c4c356741f3a0aa',
+    messagingSenderId: '265790904991',
+    projectId: 'xaral-app',
+    authDomain: 'xaral-app.firebaseapp.com',
+    storageBucket: 'xaral-app.firebasestorage.app',
   );
+
 }

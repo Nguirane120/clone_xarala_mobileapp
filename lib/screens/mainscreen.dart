@@ -21,22 +21,31 @@ class _MainscreenState extends State<Mainscreen> {
   @override
   void initState() {
     super.initState();
-    getCurrentUser();
+    // getCurrentUser();
+
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        return;
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      }
+    });
   }
 
-  void getCurrentUser() async {
-    try {
-      final User? user = auth.currentUser;
-      if (user != null) {
-        loggedInUser = user.email;
-        setState(() {
-          isLogged = true;
-        });
-      }
-    } catch (e) {
-      throw e.toString();
-    }
-  }
+  // void getCurrentUser() async {
+  //   try {
+  //     final User? user = auth.currentUser;
+  //     if (user != null) {
+  //       loggedInUser = user.email;
+  //       setState(() {
+  //         isLogged = true;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     throw e.toString();
+  //   }
+  // }
 
   final List<Widget> _pages = [
     Homescreen(),

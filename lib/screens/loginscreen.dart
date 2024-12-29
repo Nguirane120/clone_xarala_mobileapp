@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
           await _auth.signInWithCredential(credential);
 
       if (userCredential.user != null) {
-        print('User: ${userCredential.user}');
+        // print('User: ${userCredential.user}');
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => Mainscreen()),

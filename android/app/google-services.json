@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "265790904991",
+    "project_id": "xaral-app",
+    "storage_bucket": "xaral-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:265790904991:android:9e47764814e18c1ff3a0aa",
+        "android_client_info": {
+          "package_name": "com.example.clonexaralalmobileapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "265790904991-7imadhfgsdk5ipcalevmpb072t9ucg8n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.exa",
+            "certificate_hash": "6ff215c3b39b137f510a72934f55a47e1708ae14"
+          }
+        },
+        {
+          "client_id": "265790904991-ukik6qkoqsj5hgkt2s20vfgflr2faoia.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgOfMfTcEotKp3q-80r32-uwjivZ2e49Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "265790904991-ukik6qkoqsj5hgkt2s20vfgflr2faoia.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "265790904991-dtum995rtu60de2pmvbcetn9966i1grc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.clonexaralalmobileapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

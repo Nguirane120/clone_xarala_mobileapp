@@ -1,6 +1,7 @@
 import 'package:clonexaralalmobileapp/bloc/course_bloc.dart';
 import 'package:clonexaralalmobileapp/bloc/course_event.dart';
 import 'package:clonexaralalmobileapp/const.dart';
+import 'package:clonexaralalmobileapp/dynamic_link.dart';
 import 'package:clonexaralalmobileapp/repositry/auth.dart';
 import 'package:clonexaralalmobileapp/screens/mainscreen.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final authRepository = AuthenticationRepository();
+  void initState() {
+    super.initState();
+    initDynamicLinks(context); // Passer le contexte ici
+  }
 
   @override
   Widget build(BuildContext context) {

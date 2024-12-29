@@ -1,6 +1,7 @@
 import 'package:clonexaralalmobileapp/const.dart';
 import 'package:clonexaralalmobileapp/screens/resetPasswordscreen.dart';
 import 'package:clonexaralalmobileapp/widgets/texformWidget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -12,7 +13,7 @@ class ForgotPasswordScreen extends StatefulWidget {
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   final FocusNode _focusNode = FocusNode();
- 
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   @override
@@ -20,10 +21,27 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     super.initState();
 
     _focusNode.addListener(() {
-      setState(() {
-    
-      });
+      setState(() {});
     });
+  }
+
+  Future<void> resetPassword(BuildContext context, String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Un e-mail de réinitialisation a été envoyé à $email"),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Erreur : $e"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -67,7 +85,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         color: primaryColor,
                       ),
                       contontroller: _emailController,
-                  
                       inputTitle: 'Adresse Email',
                       labelText: 'xaralaacademy@gmail.com',
                       textInputType: TextInputType.emailAddress,
@@ -77,11 +94,17 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState?.validate() ?? false) {
-                          print('Form is valid');
-                          print(_emailController.text);
+                        final email = _emailController.text.trim();
+                        if (email.isNotEmpty) {
+                          resetPassword(context, email);
                         } else {
-                          print('Form is not valid');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content:
+                                  Text("Veuillez entrer une adresse e-mail."),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
                         }
                       },
                       child: Text(
@@ -99,7 +122,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Resetpasswordscreen()));
+                                    builder: (context) =>
+                                        Resetpasswordscreen()));
                           },
                           child: Text("J’ai deja un code",
                               style: TextStyle(
